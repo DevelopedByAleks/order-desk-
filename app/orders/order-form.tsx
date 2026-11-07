@@ -11,22 +11,35 @@ type Props = {
 
 export function OrderForm({ orderId, status = OrderStatus.NEW }: Props) {
   const router = useRouter();
-  const isNew = orderId === undefined;
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+
+  const { url, method, label, buttonText } = orderId === undefined
+    ? {
+        url: "/api/orders",
+        method: "POST",
+        label: "Начальный статус",
+        buttonText: "Создать",
+      }
+    : {
+        url: `/api/orders/${orderId}`,
+        method: "PATCH",
+        label: `Статус заказа №${orderId}`,
+        buttonText: "Сохранить",
+      };
 
   async function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const status = new FormData(form).get("status");
+    const selectedStatus = new FormData(form).get("status");
     setError(null);
     setPending(true);
 
     try {
-      const response = await fetch(isNew ? "/api/orders" : "/api/orders/" + orderId, {
-        method: isNew ? "POST" : "PATCH",
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status: selectedStatus }),
       });
 
       if (!response.ok) {
@@ -35,7 +48,7 @@ export function OrderForm({ orderId, status = OrderStatus.NEW }: Props) {
         return;
       }
 
-      if (isNew) form.reset();
+      if (method === "POST") form.reset();
       router.refresh();
     } catch {
       setError("Не удалось связаться с сервером. Попробуйте ещё раз.");
@@ -47,7 +60,7 @@ export function OrderForm({ orderId, status = OrderStatus.NEW }: Props) {
   return (
     <form onSubmit={submit}>
       <label>
-        {isNew ? "Начальный статус" : "Статус заказа №" + orderId}{" "}
+        {label}{" "}
         <select key={status} name="status" defaultValue={status}>
           {Object.values(OrderStatus).map((option) => (
             <option key={option} value={option}>{option}</option>
@@ -55,7 +68,7 @@ export function OrderForm({ orderId, status = OrderStatus.NEW }: Props) {
         </select>
       </label>{" "}
       <button type="submit" disabled={pending}>
-        {pending ? "Сохраняем…" : isNew ? "Создать" : "Сохранить"}
+        {pending ? "Сохраняем…" : buttonText}
       </button>
       {error && <p role="alert">{error}</p>}
     </form>

@@ -15,11 +15,11 @@ export default async function OrdersPage() {
       <h2>Новый заказ</h2>
       <OrderForm />
       <h2>Список заказов</h2>
-      {orders === null ? (
+      {orders === null && (
         <p role="alert">Не удалось загрузить заказы. Проверьте подключение к базе данных.</p>
-      ) : orders.length === 0 ? (
-        <p>Заказов пока нет.</p>
-      ) : (
+      )}
+      {orders?.length === 0 && <p>Заказов пока нет.</p>}
+      {orders && orders.length > 0 && (
         <ul>
           {orders.map(({ id, status, createdAt }) => (
             <li key={id}>
