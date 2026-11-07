@@ -1,12 +1,10 @@
 import { connection } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { listOrders } from "@/lib/orders";
 import { OrderForm } from "./order-form";
 
 export default async function OrdersPage() {
   await connection();
-  const orders = await prisma.order.findMany({
-    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-  }).catch((error: unknown) => {
+  const orders = await listOrders().catch((error: unknown) => {
     console.error(error);
     return null;
   });
