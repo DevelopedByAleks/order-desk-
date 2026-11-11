@@ -21,4 +21,6 @@ model Order {
   id        Int         @id @default(autoincrement())
   status    OrderStatus @default(NEW)
   createdAt DateTime    @default(now())
+  comment   String?
+  imageFile String?
 }
