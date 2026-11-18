@@ -44,7 +44,7 @@ export async function updateOrder(id: number, input: unknown) {
 
   const updated = await repository.updateOrder(current.id, data);
 
-  // Старый файл удаляем только после успешной записи в БД; сбой удаления — в лог, запрос успешен.
+  // Старый файл удаляем после записи в БД; сбой удаления не валит запрос.
   if (current.imageFile && data.imageFile && current.imageFile !== data.imageFile) {
     await deleteFile(current.imageFile).catch((error) => console.error("Failed to delete old image", error));
   }

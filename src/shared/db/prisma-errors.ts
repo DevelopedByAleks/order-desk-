@@ -1,8 +1,7 @@
 import { Prisma } from "@/generated/prisma/client";
 import { AppError } from "@/shared/errors";
 
-// P1xxx — соединение/аутентификация, P2024 — таймаут пула; с драйвер-адаптером pg
-// приходят и сетевые коды Node (БД остановлена → ECONNREFUSED).
+// P1xxx — соединение, P2024 — таймаут пула; адаптер pg отдаёт и сетевые коды Node.
 const UNAVAILABLE_CODES = new Set([
   "P1000", "P1001", "P1002", "P1008", "P1017", "P2024",
   "ECONNREFUSED", "ECONNRESET", "ETIMEDOUT", "ENOTFOUND",
@@ -20,7 +19,7 @@ function translate(cause: unknown): unknown {
 const infrastructure = (cause: unknown) =>
   new AppError("infrastructure", "Сервис временно недоступен. Попробуйте позже.", { cause });
 
-/** Единственное место, где распознаются ошибки Prisma. Репозитории оборачивают в него каждый запрос. */
+/** Единственное место, где распознаются ошибки Prisma; оборачивает каждый запрос репозитория. */
 export async function dbCall<T>(query: () => Promise<T>): Promise<T> {
   try {
     return await query();

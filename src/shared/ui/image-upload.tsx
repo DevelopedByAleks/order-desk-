@@ -12,13 +12,13 @@ export type UploadState =
   | { status: "error"; message: string };
 
 type Props = {
-  /** Серверная загрузка (Server Action) передаётся снаружи: компонент не зависит от роутов. */
+  /** Server Action приходит снаружи: компонент не зависит от роутов. */
   upload: (formData: FormData) => Promise<ActionResult<{ fileId: string }>>;
   currentImageUrl?: string | null;
   onStateChange: (state: UploadState) => void;
 };
 
-// Ничего не знает ни о заказе, ни об app/: выбирает файл, грузит его сразу и сообщает наружу своё состояние.
+// Не знает о заказе: грузит файл сразу после выбора и сообщает наружу своё состояние.
 export function ImageUpload({ upload, currentImageUrl, onStateChange }: Props) {
   const [state, setState] = useState<UploadState>({ status: "idle" });
 
@@ -31,7 +31,7 @@ export function ImageUpload({ upload, currentImageUrl, onStateChange }: Props) {
     const file = event.target.files?.[0];
     if (!file) return update({ status: "idle" });
 
-    // Проверка размера на клиенте — только UX: файл крупнее лимита тела Server Action не дойдёт до сервера.
+    // Только UX: файл крупнее лимита тела Server Action до сервера не дойдёт.
     if (file.size > MAX_IMAGE_BYTES) return update({ status: "error", message: "Файл больше 2 МБ." });
 
     update({ status: "uploading", fileName: file.name });

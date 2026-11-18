@@ -5,7 +5,7 @@ import { STORED_FILE_NAME } from "@/shared/files/file-name";
 const MIN_COMMENT_LENGTH = 3;
 const MAX_COMMENT_BYTES = 250;
 
-// Вход: клиент → сервер. Одна схема для формы и для сервера, серверных импортов нет.
+// Одна схема для формы и сервера: серверных импортов быть не должно.
 export const orderInputSchema = z.object({
   status: z.enum(OrderStatus, "Выберите статус из списка."),
   // Пустая строка (после trim) = «нет комментария».

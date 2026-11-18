@@ -5,9 +5,8 @@ import { runAction } from "@/shared/action";
 import * as orders from "@/modules/orders/service";
 import type { OrderInput } from "@/modules/orders/schema";
 
-// Сетевой слой: принять вход → вызвать сервис → ActionResult. Каждый action — публичный endpoint,
-// поэтому вся проверка входа — в сервисе. Два action'а (а не один с опциональным id), потому что
-// у них разный контракт: update требует существующий заказ и может вернуть not_found.
+// Action — публичный endpoint: вход проверяет сервис. Два action'а, а не один с опциональным id:
+// у update другой контракт (может вернуть not_found).
 
 export async function createOrderAction(input: OrderInput) {
   return runAction(async () => {

@@ -1,7 +1,6 @@
 "use client";
 
-// Props — из docs/01-app/03-api-reference/03-file-conventions/error.md: `error` и `retry`
-// (retry заново запрашивает данные сегмента; reset только сбрасывает состояние без перезапроса).
+// retry (Next 16.4) заново запрашивает данные сегмента; reset только сбрасывает состояние.
 export default function OrdersError({ retry }: { error: unknown; retry: () => void }) {
   return (
     <>

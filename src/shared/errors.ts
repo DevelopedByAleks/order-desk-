@@ -5,9 +5,9 @@ export type FieldErrors = Record<string, string[]>;
 export type ActionResult<T> =
   | { success: true; data: T }
   | {
-      success: false;
-      error: { kind: ErrorKind; message: string; fieldErrors?: FieldErrors };
-    };
+    success: false;
+    error: { kind: ErrorKind; message: string; fieldErrors?: FieldErrors };
+  };
 
 /**
  * Ожидаемая ошибка приложения. Инвариант: `message` безопасен для показа клиенту,
@@ -29,7 +29,7 @@ export class AppError extends Error {
   }
 }
 
-/** Приводит что угодно к AppError; неожиданное и инфраструктурное пишет в лог. Единственное место логирования. */
+/** Приводит что угодно к AppError; неожиданные и инфраструктурные ошибки пишет в лог. */
 export function normalizeError(error: unknown): AppError {
   const appError =
     error instanceof AppError
