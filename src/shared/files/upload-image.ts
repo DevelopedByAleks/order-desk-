@@ -1,5 +1,5 @@
 import { AppError } from "@/shared/errors";
-import { detectImageType, MAX_IMAGE_BYTES } from "@/shared/files/image-signature";
+import { detectImageType, MAX_IMAGE_BYTES } from "@/shared/files/image-types";
 import { saveFile } from "@/shared/files/storage";
 
 /** Проверяет и сохраняет картинку; fileId — имя, сгенерированное сервером. */

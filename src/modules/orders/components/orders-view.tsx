@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useDialog } from "@/shared/providers/Modal/modal.provider";
+import { useDialog } from "@/shared/providers/dialog-provider";
 import { OrderForm } from "@/modules/orders/components/order-form";
 import { OrderInfo } from "@/modules/orders/components/order-info";
 import type { OrderDto } from "@/modules/orders/dto";

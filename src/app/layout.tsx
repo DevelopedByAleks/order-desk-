@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
-import { DialogProvider } from "@/shared/providers/Modal/modal.provider";
+import { DialogProvider } from "@/shared/providers/dialog-provider";
 
 export const metadata: Metadata = {
   title: "Order Desk",

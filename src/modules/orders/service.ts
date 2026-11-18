@@ -1,7 +1,7 @@
 import { AppError } from "@/shared/errors";
 import { parseInput } from "@/shared/validation";
 import { deleteFile, fileExists, readStoredFile } from "@/shared/files/storage";
-import { mimeOf } from "@/shared/files/file-name";
+import { mimeOf } from "@/shared/files/image-types";
 import { orderIdSchema, orderInputSchema } from "@/modules/orders/schema";
 import * as repository from "@/modules/orders/repository";
 
@@ -46,7 +46,7 @@ export async function updateOrder(id: number, input: unknown) {
 
   // Старый файл удаляем после записи в БД; сбой удаления не валит запрос.
   if (current.imageFile && data.imageFile && current.imageFile !== data.imageFile) {
-    await deleteFile(current.imageFile).catch((error) => console.error("Failed to delete old image", error));
+    await deleteFile(current.imageFile).catch((error) => console.warn("Failed to delete old image", error));
   }
   return updated;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import Dialog from "@/shared/ui/Dialog";
+import Dialog from "@/shared/ui/dialog";
 import {
   createContext,
   useContext,

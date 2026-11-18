@@ -62,7 +62,8 @@ export function OrderForm({ order, onSaved, onCancel }: Props) {
         <select
           value={status}
           onChange={(e) => {
-            setStatus(e.target.value as OrderStatus);
+            const next = Object.values(OrderStatus).find((value) => value === e.target.value);
+            if (next) setStatus(next);
             setSaveError(null);
           }}
         >

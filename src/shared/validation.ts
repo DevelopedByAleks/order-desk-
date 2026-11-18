@@ -6,7 +6,7 @@ export function parseInput<S extends z.ZodType>(schema: S, input: unknown): z.ou
   const result = schema.safeParse(input);
   if (!result.success) {
     throw new AppError("validation", "Проверьте введённые данные.", {
-      fieldErrors: z.flattenError(result.error).fieldErrors as Record<string, string[]>,
+      fieldErrors: z.flattenError(result.error).fieldErrors,
     });
   }
   return result.data;

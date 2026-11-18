@@ -2,12 +2,12 @@ import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { AppError } from "@/shared/errors";
-import { isStoredFileName } from "@/shared/files/file-name";
+import { isStoredFileName } from "@/shared/files/image-types";
 
 // Единственное место с fs. Знает только про байты и имена; про заказы и Prisma — ничего.
 const UPLOAD_DIR = join(process.cwd(), "uploads");
 
-const isMissing = (cause: unknown) => (cause as NodeJS.ErrnoException)?.code === "ENOENT";
+const isMissing = (cause: unknown) => cause instanceof Error && "code" in cause && cause.code === "ENOENT";
 
 const diskError = (cause: unknown) => new AppError("infrastructure", "Хранилище файлов недоступно.", { cause });
 

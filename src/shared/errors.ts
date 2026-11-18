@@ -1,6 +1,6 @@
 export type ErrorKind = "validation" | "not_found" | "infrastructure" | "unknown";
 
-export type FieldErrors = Record<string, string[]>;
+export type FieldErrors = Record<string, string[] | undefined>;
 
 export type ActionResult<T> =
   | { success: true; data: T }

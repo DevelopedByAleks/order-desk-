@@ -3,7 +3,7 @@
 import { useState, type ChangeEvent } from "react";
 import { callAction } from "@/shared/action-client";
 import type { ActionResult } from "@/shared/errors";
-import { MAX_IMAGE_BYTES } from "@/shared/files/image-signature";
+import { MAX_IMAGE_BYTES } from "@/shared/files/image-types";
 
 export type UploadState =
   | { status: "idle" }

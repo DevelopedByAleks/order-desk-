@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { OrderStatus } from "@/generated/prisma/enums"; // чистые константы, без Prisma Client
-import { STORED_FILE_NAME } from "@/shared/files/file-name";
+import { STORED_FILE_NAME } from "@/shared/files/image-types";
 
 const MIN_COMMENT_LENGTH = 3;
 const MAX_COMMENT_BYTES = 250;
