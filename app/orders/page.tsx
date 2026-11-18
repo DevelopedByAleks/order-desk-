@@ -1,6 +1,13 @@
-import { OrderForm } from "./order-form"
-import { OrdersView } from "./orders-view"
+import OrderView from "@/features/orders/components/orders-view";
+
 
 export default function OrdersPage() {
-  return <OrdersView title="Заказы" Form={OrderForm} index />
+  return <OrderView />
 }
+
+
+// страница
+
+// диалог -> форма
+
+// вывод листа

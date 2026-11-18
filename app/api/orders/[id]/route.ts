@@ -1,5 +1,10 @@
-import { errorStatus, saveOrder } from "@/lib/orders"
-import { invalidFields, parseOrderId } from "@/lib/validations/orders"
+import { z } from "zod"
+import { toOrderDTO } from "@/features/orders/mappers/order.mapper"
+import { ChangeOrderStatusSchema, parseOrderId } from "@/features/orders/schemas/order.schema"
+import { changeOrderStatus } from "@/features/orders/services/orders.service"
+import { invalidOrder, orderRequestError } from "../response"
+
+const updateRequest = ChangeOrderStatusSchema.omit({ id: true }).extend({ image: z.never().optional() })
 
 export async function PATCH(
   request: Request,
@@ -8,13 +13,17 @@ export async function PATCH(
   const { id } = await params
   const orderId = parseOrderId(id)
   if (orderId === null) {
-    return Response.json(invalidFields({ id: ["Некорректный ID заказа."] }), { status: 400 })
+    return invalidOrder({ id: ["Некорректный ID заказа."] })
   }
 
   const body: unknown = await request.json().catch(() => null)
-  const result = await saveOrder(body, orderId)
-  if (!result.success) {
-    return Response.json(result, { status: errorStatus[result.error.kind] })
+  const input = updateRequest.safeParse(body)
+  if (!input.success) return invalidOrder(z.flattenError(input.error).fieldErrors)
+
+  try {
+    const order = await changeOrderStatus({ id: orderId, ...input.data })
+    return Response.json({ success: true, data: toOrderDTO(order) })
+  } catch (cause) {
+    return orderRequestError(cause)
   }
-  return Response.json(result)
 }

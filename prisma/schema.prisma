@@ -23,4 +23,5 @@ model Order {
   createdAt DateTime    @default(now())
   comment   String?
   imageFile String?
+  metadata  Json        @default("{}")
 }
