@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -23,5 +23,4 @@ model Order {
   createdAt DateTime    @default(now())
   comment   String?
   imageFile String?
-  metadata  Json        @default("{}")
 }
